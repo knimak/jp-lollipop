@@ -1,0 +1,120 @@
+---
+title: "Untitled"
+output: html_document
+date: "2024-06-02"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+install.packages("forcats")
+library(forcats)
+
+
+library(readxl)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r }
+
+
+ipond_active_fork_enrichment_1 <- read_excel("ipond active fork enrichment 1.xlsx")
+View(ipond_active_fork_enrichment_1)
+```
+
+
+```{r}
+# Reorder term description based on observed gene count in ascending order
+ipond_active_fork_enrichment_1$`term description` <- forcats::fct_reorder(ipond_active_fork_enrichment_1$`term description`, 
+                                                                          ipond_active_fork_enrichment_1$`observed gene count`)
+
+
+
+
+ggplot(ipond_active_fork_enrichment_1, aes(x = `observed gene count`, y = `term description`)) +
+  geom_point(aes(size = strength, color = -log10(`false discovery rate`))) +
+  scale_color_gradient(low = "blue", high = "red") +
+  scale_x_continuous(breaks = seq(10, 400, by = 10), limits = c(10, 400)) +
+  labs(color = expression(-log[10](FDR)), size = "strength", 
+       x = "Observed Gene Count", y = "Pathway", 
+       title = "Top 10 Enriched Gene Pathway in Active Fork") +
+  theme_bw()
+
+
+
+```
+
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r}
+
+
+ipond_active_fork_enrichment_1$`term description` <- forcats::fct_reorder(ipond_active_fork_enrichment_1$`term description`, 
+                                                                          ipond_active_fork_enrichment_1$`observed gene count`)
+
+
+
+
+
+kuaile<- ggplot(ipond_active_fork_enrichment_1, aes(x = `observed gene count`, y = `term description`)) +
+  geom_segment(aes(xend = 0, yend = `term description`), color = "grey") +
+
+          geom_vline(xintercept = 20, linetype = "dashed", color = "grey", alpha = 0.5) +
+            geom_vline(xintercept = 60, linetype = "dashed", color = "grey", alpha = 0.5) +
+              geom_vline(xintercept = 40, linetype = "dashed", color = "grey", alpha = 0.5) +
+              
+
+
+
+
+               
+  geom_vline(xintercept = 0, linetype = "dashed", color = "grey", alpha = 0.5) +
+  geom_point(aes(size = strength, color = -log10(`false discovery rate`))) +
+  scale_color_gradient(low = "blue", high = "red") +
+  scale_x_continuous(breaks = seq(0, 60, by = 20), limits = c(0, 60)) +
+  scale_size_continuous(range = c(4, 8)) +  # Adjust the range of size values if needed
+  labs(color = expression(-log[10](FDR)), size = "Strength", 
+       x = "Observed Gene Count", y = "Pathwaies", 
+       title = "Decreased Biological Processes in TRINSIC at 24h") +
+  theme_bw()+
+  theme(
+          
+        panel.grid = element_blank())
+
+print(kuaile)
+
+ggsave( "lollipop plot Decreased Biological Processes in TRINSIC at 24hs .tiff", plot = kuaile, width = 9, height =8, dpi = 600)
+```
+
+ggsave( "lollipop plot for pclip vs TRINSIC increase 0.58 Biological Processes .tiff", plot = kuaile, width = 9, height =8, dpi = 600)
+```
+
+ggsave( "lollipop plot for pclip vs Thymidine increase 0.58 Molecular Functions .tiff", plot = kuaile, width = 9, height =8, dpi = 600)
+
+ggsave( "Decreased Biological Processes in Nucleoplasm .tiff", plot = kuaile, width = 9, height =8, dpi = 600)
+
+
+```
+
+ggsave( "lollipop plot for pclip vs Thymidine increase 0.58  Biological Processes .tiff", plot = kuaile, width = 9, height =8, dpi = 600)
+
+ggsave( "lollipop plot for pclip vs Thymidine increase 0.58 Molecular Function .tiff", plot = kuaile, width = 9, height =8, dpi = 600)
+
+
+ggsave( "lollipop plot for pclip vs Trinsic decrease 0.58 48h .tiff", plot = kuaile, width = 9, height =8, dpi = 1800)
+
+
+
+ggsave( "lollipop plot for pclip vs thymidine increase 0.58 .tiff", plot = kuaile, width = 9, height =8, dpi = 1800)
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
